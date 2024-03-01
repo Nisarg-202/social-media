@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
-import _ from 'lodash';
-import {io} from 'socket.io-client';
-import {addMessage} from '../action';
-import MessageComponent from '../Component/MessageComponent';
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import _ from "lodash";
+import { io } from "socket.io-client";
+import { addMessage } from "../action";
+import MessageComponent from "../Component/MessageComponent";
 
 let socket;
 
 function JoinPage(props) {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [chatUser, setChatUser] = useState(null);
   const [chatFriends, setChatFriends] = useState([]);
@@ -32,7 +32,7 @@ function JoinPage(props) {
   }
 
   useEffect(function () {
-    socket = io('https://immense-woodland-13360.herokuapp.com');
+    socket = io(process.env.REACT_APP_SERVER_URL);
     return function () {
       socket.disconnect();
     };
@@ -85,7 +85,7 @@ function JoinPage(props) {
       message,
       socket,
     });
-    setMessage('');
+    setMessage("");
   }
 
   return (
@@ -98,7 +98,7 @@ function JoinPage(props) {
                 onClick={function () {
                   setChatUser(item);
                 }}
-                style={{cursor: 'pointer'}}
+                style={{ cursor: "pointer" }}
                 className="shadow-sm mt-3 d-flex justify-content-start align-items-center p-2"
               >
                 <img
@@ -106,7 +106,7 @@ function JoinPage(props) {
                   src={`${item.profileImageUrl}`}
                   height="40"
                   width="40"
-                  style={{border: 1, borderRadius: '100%'}}
+                  style={{ border: 1, borderRadius: "100%" }}
                 />
                 <p className="mt-2">{item.name}</p>
               </div>
@@ -126,7 +126,7 @@ function JoinPage(props) {
                 </div>
                 <div
                   className="card-body"
-                  style={{height: '500px', overflowY: 'scroll'}}
+                  style={{ height: "500px", overflowY: "scroll" }}
                 >
                   {messages.length > 0 &&
                     messages.map(function (item) {
@@ -180,4 +180,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {addMessage})(JoinPage);
+export default connect(mapStateToProps, { addMessage })(JoinPage);
